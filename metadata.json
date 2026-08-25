@@ -1,0 +1,6 @@
+{
+  "name": "Store Staff & Schedule Manager",
+  "description": "Store staff management system with role-based weekly shift scheduling, employee records, and integrated compliance paperwork tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
