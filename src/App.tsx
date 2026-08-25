@@ -10,6 +10,7 @@ import { PaperworkModal } from './components/PaperworkModal';
 import { PaperworkDetailModal } from './components/PaperworkDetailModal';
 import { PrintScheduleModal } from './components/PrintScheduleModal';
 import { StoreSettingsModal } from './components/StoreSettingsModal';
+import { LoginView } from './components/LoginView';
 import { StaffMember, Shift, PaperworkRecord, StoreInfo } from './types';
 import { getWeekStart, formatDateToISO } from './utils/dateUtils';
 import * as api from './services/api';
@@ -17,6 +18,7 @@ import * as api from './services/api';
 export default function App() {
   // Navigation
   const [activeTab, setActiveTab] = useState<'schedule' | 'staff' | 'paperwork' | 'attendance'>('schedule');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Core Data States
   const [staffList, setStaffList] = useState<StaffMember[]>([]);
@@ -363,6 +365,10 @@ export default function App() {
   const handleResetData = () => {
     loadData();
   };
+
+  if (!isAuthenticated) {
+    return <LoginView onLogin={() => setIsAuthenticated(true)} />;
+  }
 
   if (loading) {
     return (
