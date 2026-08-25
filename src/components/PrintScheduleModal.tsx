@@ -43,10 +43,22 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
       await new Promise((resolve) => { img.onload = resolve; });
       
       const pdf = new jsPDF('landscape', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (img.height * pdfWidth) / img.width;
+      const maxPdfWidth = pdf.internal.pageSize.getWidth();
+      const maxPdfHeight = pdf.internal.pageSize.getHeight();
       
-      pdf.addImage(dataUrl, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      let pdfWidth = maxPdfWidth;
+      let pdfHeight = (img.height * maxPdfWidth) / img.width;
+      
+      // Scale down to fit height if necessary
+      if (pdfHeight > maxPdfHeight) {
+        pdfHeight = maxPdfHeight;
+        pdfWidth = (img.width * maxPdfHeight) / img.height;
+      }
+      
+      const xOffset = (maxPdfWidth - pdfWidth) / 2;
+      const yOffset = (maxPdfHeight - pdfHeight) / 2;
+      
+      pdf.addImage(dataUrl, 'PNG', xOffset, yOffset, pdfWidth, pdfHeight);
       pdf.save(`Schedule_${weekRange.replace(/\s+/g, '_')}.pdf`);
     } catch (e: any) {
       console.error(e);
@@ -89,9 +101,11 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
           </div>
         </div>
 
-        {/* Printable Paper Area */}
-        <div id="printable-area" className="p-6 sm:p-8 max-h-[85vh] overflow-y-auto bg-white print:max-h-none print:overflow-visible print:p-0">
-          {/* Header on Paper */}
+        {/* Printable Paper Wrapper (Scrollable on small screens) */}
+        <div className="max-h-[85vh] overflow-auto bg-slate-100">
+          {/* Printable Paper Area - Fixed min width to prevent cutoff on mobile exports */}
+          <div id="printable-area" className="p-6 sm:p-8 bg-white min-w-[950px] mx-auto print:p-0">
+            {/* Header on Paper */}
           <div className="border-b-2 border-slate-900 pb-4 mb-5 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
             <div>
               <div className="flex items-center gap-2 text-slate-900 font-black text-xl tracking-tight">
@@ -234,6 +248,7 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                 <span className="text-[10px] text-slate-500 font-medium">Date Posted</span>
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>
