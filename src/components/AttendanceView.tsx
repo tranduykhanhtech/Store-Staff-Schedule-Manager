@@ -44,7 +44,7 @@ export const AttendanceView: React.FC<AttendanceViewProps> = ({
 
   const todayShifts = useMemo(() => {
     return shifts.filter((s) => {
-      const isTimeOff = s.status === 'weekend_off' || s.status === 'annual_leave' || s.status === 'training';
+      const isTimeOff = s.status === 'weekend_off' || s.status === 'annual_leave' || s.status === 'training' || s.status === 'holiday_off';
       return s.date === selectedDate && !isTimeOff;
     });
   }, [shifts, selectedDate]);

@@ -59,7 +59,16 @@ export interface PaperworkRecord {
   contentDetails?: string;
 }
 
-export type ShiftStatus = 'scheduled' | 'confirmed' | 'clocked_in' | 'completed' | 'absent' | 'weekend_off' | 'annual_leave' | 'training';
+export type ShiftStatus = 
+  | 'scheduled' 
+  | 'confirmed' 
+  | 'clocked_in' 
+  | 'completed' 
+  | 'absent' 
+  | 'weekend_off' 
+  | 'annual_leave'
+  | 'training'
+  | 'holiday_off';
 
 export interface Shift {
   id: string;

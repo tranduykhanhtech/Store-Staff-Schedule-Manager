@@ -79,7 +79,7 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
   };
 
   const selectedStaffMember = staffList.find(s => s.id === staffId);
-  const isTimeOff = status === 'weekend_off' || status === 'annual_leave' || status === 'training';
+  const isTimeOff = status === 'weekend_off' || status === 'annual_leave' || status === 'training' || status === 'holiday_off';
   const shiftHours = isTimeOff ? 0 : calculateShiftDurationHours(startTime, endTime, breakMinutes);
 
   // Calculate conflict checks
@@ -388,6 +388,7 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
                 <option value="weekend_off">Weekend Off</option>
                 <option value="annual_leave">Annual Leave</option>
                 <option value="training">Training</option>
+                <option value="holiday_off">Holiday Off</option>
               </select>
             </div>
 

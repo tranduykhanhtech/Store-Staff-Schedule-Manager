@@ -175,7 +175,7 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                                   className="py-1.5 px-1.5 border-r border-slate-200 last:border-r-0 text-center align-middle"
                                 >
                                   {dayShifts.map((shift) => {
-                                    const isTimeOff = shift.status === 'weekend_off' || shift.status === 'annual_leave' || shift.status === 'training';
+                                    const isTimeOff = shift.status === 'weekend_off' || shift.status === 'annual_leave' || shift.status === 'training' || shift.status === 'holiday_off';
                                     const hours = isTimeOff ? 0 : calculateShiftDurationHours(
                                       shift.startTime,
                                       shift.endTime,
@@ -190,10 +190,11 @@ export const PrintScheduleModal: React.FC<PrintScheduleModalProps> = ({
                                           className={`border rounded-lg p-1 text-[9px] font-bold uppercase tracking-wider mb-1 shadow-2xs ${
                                             shift.status === 'weekend_off' ? 'bg-slate-100 border-slate-300 text-slate-500'
                                             : shift.status === 'annual_leave' ? 'bg-teal-50 border-teal-200 text-teal-700'
+                                            : shift.status === 'holiday_off' ? 'bg-orange-50 border-orange-200 text-orange-700'
                                             : 'bg-fuchsia-50 border-fuchsia-200 text-fuchsia-700'
                                           }`}
                                         >
-                                          {shift.status === 'weekend_off' ? 'Weekend Off' : shift.status === 'annual_leave' ? 'Annual Leave' : 'Training'}
+                                          {shift.status === 'weekend_off' ? 'Weekend Off' : shift.status === 'annual_leave' ? 'Annual Leave' : shift.status === 'holiday_off' ? 'Holiday Off' : 'Training'}
                                         </div>
                                       );
                                     }

@@ -388,7 +388,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
                 const staffWeeklyShifts = currentWeekShifts.filter((s) => s.staffId === staff.id);
                 const staffHoursTotal = staffWeeklyShifts.reduce(
                   (sum, s) => {
-                    const isTimeOff = s.status === 'weekend_off' || s.status === 'annual_leave' || s.status === 'training';
+                    const isTimeOff = s.status === 'weekend_off' || s.status === 'annual_leave' || s.status === 'training' || s.status === 'holiday_off';
                     return sum + (isTimeOff ? 0 : calculateShiftDurationHours(s.startTime, s.endTime, s.breakMinutes));
                   },
                   0
@@ -442,7 +442,7 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
                         >
                           <div className="min-h-[56px] flex flex-col justify-center gap-1.5">
                             {dayShifts.map((shift) => {
-                              const isTimeOff = shift.status === 'weekend_off' || shift.status === 'annual_leave' || shift.status === 'training';
+                              const isTimeOff = shift.status === 'weekend_off' || shift.status === 'annual_leave' || shift.status === 'training' || shift.status === 'holiday_off';
                               const shiftDuration = isTimeOff ? 0 : calculateShiftDurationHours(
                                 shift.startTime,
                                 shift.endTime,
@@ -457,11 +457,12 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({
                                     className={`p-2 rounded-xl border text-center cursor-pointer transition shadow-2xs hover:shadow-md hover:scale-[1.02] ${
                                       shift.status === 'weekend_off' ? 'bg-slate-100 border-slate-300 text-slate-500 border-l-4 border-l-slate-400' 
                                       : shift.status === 'annual_leave' ? 'bg-teal-50 border-teal-200 text-teal-700 border-l-4 border-l-teal-500'
+                                      : shift.status === 'holiday_off' ? 'bg-orange-50 border-orange-200 text-orange-700 border-l-4 border-l-orange-500'
                                       : 'bg-fuchsia-50 border-fuchsia-200 text-fuchsia-700 border-l-4 border-l-fuchsia-500'
                                     }`}
                                   >
                                     <div className="font-bold text-[10px] uppercase tracking-wider">
-                                      {shift.status === 'weekend_off' ? 'Weekend Off' : shift.status === 'annual_leave' ? 'Annual Leave' : 'Training'}
+                                      {shift.status === 'weekend_off' ? 'Weekend Off' : shift.status === 'annual_leave' ? 'Annual Leave' : shift.status === 'holiday_off' ? 'Holiday Off' : 'Training'}
                                     </div>
                                   </div>
                                 );
